@@ -47,32 +47,31 @@ typedef struct patient{
 
         printf("Enter Patient id: ");
         scanf("%d", &p.id);
+        while (getchar() != '\n');  // Clear input buffer
     
-        printf("\nEnter Patient name: \t");
-        fflush(stdin);     
-        gets(p.pname);
+        printf("\nEnter Patient name: \t");    
+        scanf("%[^\n]s", p.pname);
+        while (getchar() != '\n');  // Clear input buffer
 
         printf("\nEnter Patient gender: \t");
-        fflush(stdin);
-        gets(p.gender);
+        scanf("%[^\n]s", p.gender);
+        while (getchar() != '\n');  // Clear input buffer
 
         printf("\nEnter Age:\t");
         scanf("%d", &p.age);
-        fflush(stdin);
-
-        
+        while (getchar() != '\n');  // Clear input buffer
     
         printf("\nEnter Patient Address:\t ");
-        fflush(stdin);
-        gets(p.address);
+        scanf("%[^\n]s", p.address);
+        while (getchar() != '\n');  // Clear input buffer
     
         printf("\nEnter Patient symptomes: \t");
-        fflush(stdin);
-        gets(p.symptomes);
+        scanf("%[^\n]s", p.symptomes);
+        while (getchar() != '\n');  // Clear input buffer
 
         printf("\nEnter Patient checkup doctor: \t");
-        fflush(stdin);
-        gets(p.checkby_doctor);
+        scanf("%[^\n]s", p.checkby_doctor);
+        while (getchar() != '\n');  // Clear input buffer
     
         fwrite(&p, sizeof(p), 1, fp);
         fclose(fp);
@@ -202,22 +201,27 @@ int appointment() {
             if (choice < 1 || choice > 3) {
                 printf("Invalid choice!\n");
                 fclose(fp);
+                getch();
                 return;
             }
 
             if (s.date[choice - 1] == 0) {
                 s.date[choice - 1] = 1;
                 printf("Appointment booked successfully\n");
+                getch();
             } else {
                 printf("Appointment already booked\n");
                 fclose(fp);
+                getch();
                 return 0;
             }
 
             fseek(fp, -sizeof(s), SEEK_CUR);
             fwrite(&s, sizeof(s), 1, fp);
+            getch();
             break;
         }
+        getch();
     }
 
     fclose(fp);
@@ -289,14 +293,13 @@ void doc_entry(){
     strcpy(d.date, buffer);
 
 
-
     printf("\n enter your id:\t");
-    scanf("%d",&d.docid);
-    fflush(stdin);
+    scanf("%d", &d.docid);
+    while (getchar() != '\n');  // Clear input buffer
 
     printf("\n Enter doctor name:\t");
-    fflush(stdin);
-    gets(d.dname);
+    scanf("%[^\n]s", d.dname);
+    while (getchar() != '\n');  // Clear input buffer
 
     fwrite(&d, sizeof(d),1,fp);
     fclose(fp);
@@ -327,7 +330,6 @@ void doc_exit(){
 
     fclose(fp);
     fclose(ft);
-
     if (f == 1) {
         remove("doc_status.txt");
         rename("temp1.txt", "doc_status.txt");
@@ -344,7 +346,6 @@ int main(){
     int choice;
      // infinite loop in while(true) ; the loop can be countered by switch statement
      while(1){  
-        system("cls");
         printf("\t\t\t\t<-------Hospital Management system------->\n\n");
         printf("\t1. Admit Patient\n");
         printf("\t2. Discharge Patient\n");
